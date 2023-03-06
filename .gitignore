@@ -5,5 +5,4 @@
 *.bbl
 *.blg
 *.pyc
-report.pdf
 __pycache__
