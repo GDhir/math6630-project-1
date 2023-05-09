@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[12pt,dvipsnames]{article}
  \usepackage[margin=1in]{geometry} 
 \usepackage{amsmath,amsthm,amssymb,amsfonts}
  \usepackage{xcolor}
@@ -58,19 +58,24 @@
 [1]% There is one argument, which is the name of the data structure
 {\textbf{struct} \textsc{#1}}% typesetting of the start of a struct
 {\textbf{end struct}}% typesetting the end of the struct
+
+\newcommand{\an}[1]{{\leavevmode\color{BrickRed}{#1}}}
+
 \begin{document}
 \title{Project 1: Finite Difference Methods}
 \author{Gaurav Dhir}
 \maketitle
+\an{You should keep the problem statement in here so that you know what this report is about.}
 \section{Solution 1}
 \subsection{Part (a)}
-The order of the truncation error can be calculated by putting the exact solution within the discretization and by analyzing the remainder term obtained after Taylor Series expansions of the constituent terms around the point $x = x_j$. The exact differential equation has been stated in Equation \ref{eqdiff}.
+The order of the truncation error can be calculated by putting the exact solution within the discretization and by analyzing the remainder term obtained after Taylor Series expansions of the constituent terms around the point $x = x_j$. The exact differential equation has been stated in Equation \ref{eqdiff}. \an{That equation seems to refer to the iterative solver as well, which is not relevant for determining the local truncation error.}
 \begin{equation} \label{eqdiff}
     \begin{aligned}
        & \frac{d  }{dx} \left( \kappa(x) \frac{d u(x)}{dx} \right) = f(x)  \\
        & or \quad \kappa'(x)\frac{d u(x)}{dx}+ \kappa(x) \frac{d^2 u(x)}{dx^2} = f(x)
     \end{aligned}
 \end{equation}
+\an{You should keep the first form above; writing it in the second form makes nontrivial changes both to structure and theory for this PDE.}
 The second order accurate discretization of Equation \ref{eqdiff} has been stated in Equation \ref{eqdis}. Here, $T(x_j)$ has been considered to be the truncation error of the discretization. 
 \begin{equation} \label{eqdis}
     \begin{aligned}
@@ -126,7 +131,7 @@ Also, $u'(x) = \pi cos(\pi x)$ and $ \kappa(x)u'(x) = 2 \pi cos(\pi x) + \pi cos
 \end{aligned}
 \end{equation}
 \subsection{Part (c)}
-The Partial Differential Equation was discretized and the Gauss Siedel Scheme was used to obtain the solution at different values of grid spacing. The discretized system of equations has been summarized in Equation \ref{eqdis}. Here $r$ denotes the iteration level of the scheme.
+The Partial Differential Equation was discretized and the Gauss Siedel Scheme was used to obtain the solution at different values of grid spacing. \an{It's fine to use Gauss-Seidel, but it's not really needed here; the problem sizes should be small enough that you don't have to use iterative methods. Anyway, you never really write down directly what linear system you're solving; this should be done for clarity.} The discretized system of equations has been summarized in Equation \ref{eqdis}. Here $r$ denotes the iteration level of the scheme.
 \begin{equation} \label{eqdis}
     \begin{aligned}
         & \frac{\kappa( x_j + h/2 ) u(x_j + h) + \kappa( x_j - h/2 )u( x_j - h ) - u(x_j)( \kappa(x_j + h/2) + \kappa(x_j - h/2) )}{h^2} = f(x_j) \\
@@ -144,6 +149,7 @@ The Gauss Siedel Iteration is continued until the $L^2$ norm of the residual con
 \begin{equation}\label{eqerror}
     \frac{\norm{e}_2}{\norm{u}_2} \leq \norm{A}_2 \norm{A^{-1}}_2 \frac{\norm{R}_2}{\norm{f}_2}
 \end{equation}
+\an{All the above is ok, but again this is all an artifact of using iterative methods. If you use direct methods (which is very possible on this problem) then you won't have to worry about the problems above. Generally speaking, iterative methods for linear problems use the residual ($R$) rather than the difference between iterates to ascertain convergence. Of course, nonlinear optimization methods will use the difference between iterates generally.}
 The Residual $R(x_j)$ was calculated using Equation \ref{res} and the scaled $L^2$ norm of the residual was used to evaluate the error.
 \begin{equation} \label{res}
     \begin{aligned}
@@ -151,6 +157,7 @@ The Residual $R(x_j)$ was calculated using Equation \ref{res} and the scaled $L^
         & and \quad Error = \sqrt{ \frac{\sum_{j = 1}^{N - 1} R(x_j)^2}{N} }
     \end{aligned}
 \end{equation}
+\an{You label the residual norm above as ``error'', but this is confusing terminology since you do not mean it's the error in the solution.}
 Figure \ref{solplot} shows the plot of the solution $u(x_j)$ at $N = 65$ where $N$ represents the number of points on the grid used for discretization. Figure \ref{errorplot} shows the convergence plot of the error at different values of grid spacing. The slope of the error plot was calculated and was found to be equal to $2.06$ establishing perfect second order solution convergence. 
 \begin{figure}
 \centering
